@@ -1,0 +1,228 @@
+<!--
+Kelompok 7
+
+5200411213 - Abdi Febryan P
+5200411247 - Zaki Makhasin
+
+-->
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Multiprogramming</title>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<style type="text/css">
+		* { box-sizing:border-box;font-family:sans-serif; }
+
+		.container    { 
+		  width:100%; 
+		  margin:30px auto 0; 
+		  display:block; 
+		  background:#FFF;
+		  padding:10px 50px 50px;
+		}
+		h2     { 
+		  text-align:center; 
+		  margin-bottom:50px; 
+		}
+		h2 small { 
+		  font-weight:normal; 
+		  color:#888; 
+		  display:block; 
+		}
+		.footer   { text-align:center; }
+		.footer a  { color:#53B2C8; }
+
+
+		.group        { 
+		  position:relative; 
+		  margin-bottom:45px; 
+		}
+		input         {
+		  font-size:18px;
+		  padding:10px 10px 10px 5px;
+		  display:block;
+		  width:100%;
+		  border:none;
+		  border-bottom:1px solid #757575;
+		}
+		input:focus     { outline:none; }
+
+
+		label          {
+		  color:#999; 
+		  font-size:18px;
+		  font-weight:normal;
+		  position:absolute;
+		  pointer-events:none;
+		  left:5px;
+		  top:10px;
+		  transition:0.2s ease all; 
+		  -moz-transition:0.2s ease all; 
+		  -webkit-transition:0.2s ease all;
+		}
+
+
+		input:focus ~ label, input:valid ~ label    {
+		  top:-20px;
+		  font-size:14px;
+		  color:#5264AE;
+		}
+
+
+		.bar  { position:relative; display:block; width:100%; }
+		.bar:before, .bar:after   {
+		  content:'';
+		  height:2px; 
+		  width:0;
+		  bottom:1px; 
+		  position:absolute;
+		  background:#5264AE; 
+		  transition:0.2s ease all; 
+		  -moz-transition:0.2s ease all; 
+		  -webkit-transition:0.2s ease all;
+		}
+		.bar:before {
+		  left:50%;
+		}
+		.bar:after {
+		  right:50%; 
+		}
+
+
+		input:focus ~ .bar:before, input:focus ~ .bar:after {
+		  width:50%;
+		}
+
+
+		.highlight {
+		  position:absolute;
+		  height:60%; 
+		  width:100px; 
+		  top:25%; 
+		  left:0;
+		  pointer-events:none;
+		  opacity:0.5;
+		}
+
+
+		input:focus ~ .highlight {
+		  -webkit-animation:inputHighlighter 0.3s ease;
+		  -moz-animation:inputHighlighter 0.3s ease;
+		  animation:inputHighlighter 0.3s ease;
+		}
+
+
+		@-webkit-keyframes inputHighlighter {
+		  from { background:#5264AE; }
+		  to  { width:0; background:transparent; }
+		}
+		@-moz-keyframes inputHighlighter {
+		  from { background:#5264AE; }
+		  to  { width:0; background:transparent; }
+		}
+		@keyframes inputHighlighter {
+		  from { background:#5264AE; }
+		  to  { width:0; background:transparent; }
+		}
+
+		input[type=button] {
+		  border: none;
+		  cursor: pointer;
+		  color: white;
+		  padding: 15px 40px;
+		  border-radius: 8px;
+		  font-size: 22px;
+		  box-shadow: 2px 2px 4px rgba(0, 0, 0, .4);
+		  background: #7066E0;
+		}
+
+		.swal2-styled.swal2-confirm,.swal2-actions { width:90% !important}
+</style>
+</head>
+<body>
+	<div class="container">
+	<h2>Multiprogramming<br><br><small>Kelompok 7</small></h2>
+	<form>
+		<div class="group">      
+			<input type="number" id="ram" min="0" step="0.01" required />
+			<span class="highlight"></span>
+			<span class="bar"></span>
+			<label>Kapasitas RAM (GB)</label>
+		</div>
+
+		<div class="group">      
+			<input type="number" id="so" min="0" step="0.01" required />
+			<span class="highlight"></span>
+			<span class="bar"></span>
+			<label>Besar Penggunaan Sistem Operasi (GB)</label>
+		</div>
+
+		<div class="group">      
+			<input type="number" id="kp1" min="0" step="0.01" required />
+			<span class="highlight"></span>
+			<span class="bar"></span>
+			<label>Besar Kapasitas Program 1 (GB)</label>
+		</div>
+
+		<div class="group">      
+			<input type="number" id="kp2" min="0" step="0.01" required />
+			<span class="highlight"></span>
+			<span class="bar"></span>
+			<label>Besar Kapasitas Program 2 (GB)</label>
+		</div>
+
+		<div class="group">      
+			<input type="number" id="kp3" min="0" step="0.01" required />
+			<span class="highlight"></span>
+			<span class="bar"></span>
+			<label>Besar Kapasitas Program 3 (GB)</label>
+		</div>
+
+		<div class="group">      
+			<input type="number" id="kp4" min="0" step="0.01" required />
+			<span class="highlight"></span>
+			<span class="bar"></span>
+			<label>Besar Kapasitas Program 4 (GB)</label>
+		</div>
+
+		<div class="group">      
+			<input type="number" id="kp5" min="0" step="0.01" required />
+			<span class="highlight"></span>
+			<span class="bar"></span>
+			<label>Besar Kapasitas Program 5 (GB)</label>
+		</div>
+
+		<input type="button" onclick="calc()" value="HITUNG" />
+	</form>
+</div>
+
+<script>
+
+    function calc() {
+
+        let ram = Number(document.querySelector("#ram").value);
+        let so = Number(document.querySelector("#so").value);
+        let kp1 = Number(document.querySelector("#kp1").value);
+        let kp2 = Number(document.querySelector("#kp2").value);
+        let kp3 = Number(document.querySelector("#kp3").value);
+        let kp4 = Number(document.querySelector("#kp4").value);
+        let kp5 = Number(document.querySelector("#kp5").value);
+        let tp = ram - (so + kp1 + kp2 + kp3 + kp4 + kp5);
+
+        let groups = [ram, so, kp1, kp2, kp3, kp4, kp5, "temp"]
+
+        for (const x of groups) {
+            if (!x) {
+                groups[7] = ""
+                Swal.fire({ icon: 'error', title: 'Oops...', text: 'Tolong isi semua form!' })
+            } 
+            else {
+                Swal.fire('Hasil Running Multiprogramming', `Besar RAM: <b>${ram} GB</b><br><br>Besar Penggunaan Sistem Operasi: <b>${so} GB</b><br><br>Besar Kapasitas Program 1: <b>${kp1} GB</b><br><br>Besar Kapasitas Program 2: <b>${kp2} GB</b><br><br>Besar Kapasitas Program 3: <b>${kp3} GB</b><br><br>Besar Kapasitas Program 4: <b>${kp4} GB</b><br><br>Besar Kapasitas Program 5: <b>${kp5} GB</b><br><br>Besar Memori Tidak Terpakai: <b>${tp} GB</b>`, 'success')
+            }
+        }
+    }
+</script>
+</body>
+</html>
